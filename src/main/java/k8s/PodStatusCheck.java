@@ -6,7 +6,6 @@ import io.kubernetes.client.openapi.models.V1Pod;
 import io.kubernetes.client.openapi.models.V1PodList;
 import io.kubernetes.client.util.Config;
 
-import java.util.List;
 
 public class PodStatusCheck {
     public static void main(String[] args) throws Exception {
