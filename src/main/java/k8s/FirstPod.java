@@ -29,7 +29,9 @@ public class FirstPod {
         // 根据标签选择器获取最新 Pod
         V1PodList podList = null;
         try {
-            podList = api.listNamespacedPod(namespace, null, null, null, null, "service-name=my-service09-23", null, null, null, null,null,null);
+            podList = api.listNamespacedPod(namespace, null, null, null,
+                    null, "service-name=my-service09-23", null, null,
+                    null, null,null,null);
         } catch (ApiException e) {
             throw new RuntimeException(e);
         }
