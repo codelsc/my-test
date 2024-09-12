@@ -6,7 +6,6 @@ import io.kubernetes.client.openapi.models.V1Pod;
 import io.kubernetes.client.openapi.models.V1PodList;
 import io.kubernetes.client.util.Config;
 
-import java.util.List;
 
 public class PodStatusCheck {
     public static void main(String[] args) throws Exception {
@@ -18,7 +17,9 @@ public class PodStatusCheck {
 
         // 获取特定命名空间下的 Pod 列表
         String namespace = "aidev"; // 替换为你想要查询的命名空间
-        V1PodList podList = api.listNamespacedPod(namespace, null, null, null, null, null, null, null, null, false, null, null);
+        V1PodList podList = api.listNamespacedPod(namespace, null, null, null,
+                null, null, null, null, null,
+                false, null, null);
 
         // 遍历 Pod 列表并检查状态
         for (V1Pod pod : podList.getItems()) {

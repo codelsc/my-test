@@ -5,11 +5,9 @@ import io.kubernetes.client.openapi.ApiClient;
 import io.kubernetes.client.openapi.Configuration;
 import io.kubernetes.client.openapi.apis.AppsV1Api;
 import io.kubernetes.client.openapi.apis.CoreV1Api;
-import io.kubernetes.client.openapi.apis.NetworkingV1Api;
 import io.kubernetes.client.openapi.models.*;
 import io.kubernetes.client.util.Config;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -37,12 +35,12 @@ public class K8sServiceDeploymentExample {
                         .replicas(1)
                         .selector(new V1LabelSelector().matchLabels(Map.of("app", appName)))
                         .template(new V1PodTemplateSpec()
-                                .metadata(new V1ObjectMeta().labels(Map.of("app", appName)))
-                                .spec(new V1PodSpec()
-                                        .containers(List.of(new V1Container()
-                                                                .name("my-container")
-                                                                .image(containerImage)
-                                                                .ports(List.of(new V1ContainerPort().containerPort(servicePort)))
+                                        .metadata(new V1ObjectMeta().labels(Map.of("app", appName)))
+                                        .spec(new V1PodSpec()
+                                                        .containers(List.of(new V1Container()
+                                                                                .name("my-container")
+                                                                                .image(containerImage)
+                                                                                .ports(List.of(new V1ContainerPort().containerPort(servicePort)))
 //                                                .livenessProbe(new V1Probe()
 //                                                        .exec(new io.kubernetes.client.openapi.models.V1ExecAction()
 //                                                                .command(List.of("curl", "-f", "http://localhost/healthz")))
@@ -53,10 +51,10 @@ public class K8sServiceDeploymentExample {
 //                                                                .command(List.of("curl", "-f", "http://localhost/healthz")))
 //                                                        .initialDelaySeconds(5)
 //                                                        .periodSeconds(10))
+                                                                )
                                                         )
-                                                )
-                                )
-                ));
+                                        )
+                        ));
 
         /**
          * 在指定命名空间中创建一个新的 Kubernetes 服务（deployment）对象。
@@ -88,8 +86,8 @@ public class K8sServiceDeploymentExample {
                         .type("NodePort") // 使用 NodePort 类型
                         .selector(Map.of("app", appName))
                         .ports(List.of(new V1ServicePort()
-                                .port(servicePort)
-                                .targetPort(new IntOrString(servicePort))
+                                        .port(servicePort)
+                                        .targetPort(new IntOrString(servicePort))
 //                                .nodePort(nodePort)
                         )));
 
@@ -141,45 +139,45 @@ public class K8sServiceDeploymentExample {
 }
 /**
  * 在 Kubernetes 中，服务的成功部署通常涉及多个资源，包括 Deployment、Service 和 Ingress。要确保这些资源都处于工作状态，您可以检查以下几个关键状态：
- *
+ * <p>
  * Deployment 状态:
- *
+ * <p>
  * 您的 Deployment 是否成功部署了所需数量的 Pod。
  * 检查 Pod 的状态是否是 Running，这意味着容器已经启动并在正常运行。
  * 您可以通过以下步骤验证 Deployment 的状态：
- *
+ * <p>
  * AppsV1Api appsV1Api = new AppsV1Api();
  * V1DeploymentStatus deploymentStatus = appsV1Api.readNamespacedDeploymentStatus(appName, namespace, null).getStatus();
  * int availableReplicas = deploymentStatus.getAvailableReplicas() != null ? deploymentStatus.getAvailableReplicas() : 0;
  * int desiredReplicas = deploymentStatus.getReplicas();
  * if (availableReplicas == desiredReplicas) {
- *     System.out.println("Deployment is ready.");
+ * System.out.println("Deployment is ready.");
  * } else {
- *     System.out.println("Deployment is not ready yet.");
+ * System.out.println("Deployment is not ready yet.");
  * }
  * Service 状态:
- *
+ * <p>
  * Kubernetes Service 不需要明确的状态检查，因为它本质上是一个入口点，可以访问后台的 Pod。您可以确认 Service 是否创建成功并且能够连接。
  * 验证 Service 是否存在：
- *
+ * <p>
  * CoreV1Api coreV1Api = new CoreV1Api();
  * V1Service service = coreV1Api.readNamespacedService(appName, namespace, null);
  * if (service != null) {
- *     System.out.println("Service is created successfully.");
+ * System.out.println("Service is created successfully.");
  * } else {
- *     System.out.println("Service creation failed.");
+ * System.out.println("Service creation failed.");
  * }
  * Ingress 状态:
- *
+ * <p>
  * 检查 Ingress 是否有效，如果其后端 Pod 所在的 Service 可正确访问。
  * 验证 Ingress 是否创建成功：
- *
+ * <p>
  * NetworkingV1Api networkingV1Api = new NetworkingV1Api();
  * V1Ingress ingress = networkingV1Api.readNamespacedIngress(appName + "-ingress", namespace, null);
  * if (ingress != null) {
- *     System.out.println("Ingress is created successfully.");
+ * System.out.println("Ingress is created successfully.");
  * } else {
- *     System.out.println("Ingress creation failed.");
+ * System.out.println("Ingress creation failed.");
  * }
  * 结合这些状态检查后，您可以说您的服务已成功部署。如果都通过了上述检查，您的 Deployment、Service 和 Ingress 都应该是有效的且可以正常工作。您可以将这些检查逻辑组合在一起，形成一个完整的检查周期，确保每个组件都已经就绪。
  */

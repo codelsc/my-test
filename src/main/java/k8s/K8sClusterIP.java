@@ -14,7 +14,9 @@ public class K8sClusterIP {
         Configuration.setDefaultApiClient(client);
 
         CoreV1Api api = new CoreV1Api();
-        V1NodeList nodes = api.listNode(null, null, null, null, null, null, null, null, null, null, null);
+        V1NodeList nodes = api.listNode(null, null, null, null,
+                null, null, null, null,
+                null, null, null);
 
         // 打印每个节点的 IP 地址
         for (V1Node node : nodes.getItems()) {
