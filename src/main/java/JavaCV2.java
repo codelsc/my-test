@@ -3,6 +3,7 @@ import org.bytedeco.javacv.Frame;
 import org.bytedeco.opencv.opencv_videoio.VideoCapture;
 import org.opencv.videoio.Videoio;
 
+
 public class JavaCV2 {
 //    static {
 //        // 加载OpenCV的本地库（确保在Java项目的运行配置中包含了OpenCV的本地库路径）
@@ -11,7 +12,8 @@ public class JavaCV2 {
     public static void main(String[] args) {
 //        String videoFilePath = "/Users/lisc/zgxw/workspace/java/myTest/src/main/resources/test.mp4";
         String videoFilePath = "https://minio-api.csnd.com/ai-flow-dataset-img-test/NzgzX3Rlc3RiX3Rlc3RiVjEuMC4x_dGVzdGI=_M2IxYi01LW5leHR0b2tlbl/lia/mnKw=.mp4";
-
+        nu.pattern.OpenCV.loadLocally();
+        nu.pattern.OpenCV.loadShared();
         try {
             FFmpegFrameGrabber grabber = new FFmpegFrameGrabber(videoFilePath);
             grabber.start();
