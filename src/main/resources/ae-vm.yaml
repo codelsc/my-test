@@ -1,0 +1,2 @@
+- mountPath: /mnt
+  name: kubeflow-user-workspace
